@@ -11,16 +11,6 @@ import { User } from "./User";
 export enum Gender {
   MALE = "male",
   FEMALE = "female",
-  OTHER = "other",
-  PREFER_NOT_TO_SAY = "prefer_not_to_say",
-}
-
-export enum StudyTactic {
-  VISUAL = "visual", // Görsel öğrenme
-  AUDITORY = "auditory", // İşitsel öğrenme
-  KINESTHETIC = "kinesthetic", // Kinestetik/Uygulamalı öğrenme
-  READING_WRITING = "reading_writing", // Okuma-yazma
-  MIXED = "mixed", // Karma
 }
 
 export enum EducationLevel {
@@ -51,9 +41,6 @@ export class UserInfo {
 
   @prop({ required: true, enum: Gender })
   public gender!: Gender;
-
-  @prop({ required: true, enum: StudyTactic })
-  public studyTactic!: StudyTactic;
 
   @prop({ required: true, enum: EducationLevel })
   public educationLevel!: EducationLevel;

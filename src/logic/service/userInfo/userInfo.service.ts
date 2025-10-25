@@ -51,7 +51,6 @@ export class UserInfoService implements IUserInfoService {
     const prompt = `
 Kullanıcı Profili:
 - Cinsiyet: ${this.translateGender(userInfo.gender)}
-- Öğrenme Stili: ${this.translateStudyTactic(userInfo.studyTactic)}
 - Eğitim Seviyesi: ${this.translateEducationLevel(userInfo.educationLevel)}
 - Kariyer Hedefi: ${userInfo.careerGoal}
 - Mevcut Durum: ${userInfo.currentStatus}
@@ -93,21 +92,8 @@ ${userInfo.additionalNotes ? `- Ek Notlar: ${userInfo.additionalNotes}` : ""}
     const translations: Record<string, string> = {
       male: "Erkek",
       female: "Kadın",
-      other: "Diğer",
-      prefer_not_to_say: "Belirtmek İstemiyorum",
     };
     return translations[gender] || gender;
-  }
-
-  private translateStudyTactic(tactic: string): string {
-    const translations: Record<string, string> = {
-      visual: "Görsel Öğrenme",
-      auditory: "İşitsel Öğrenme",
-      kinesthetic: "Uygulamalı/Kinestetik Öğrenme",
-      reading_writing: "Okuma-Yazma",
-      mixed: "Karma/Çoklu Yöntem",
-    };
-    return translations[tactic] || tactic;
   }
 
   private translateEducationLevel(level: string): string {

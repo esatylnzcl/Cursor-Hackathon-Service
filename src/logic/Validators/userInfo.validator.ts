@@ -1,16 +1,9 @@
 import zod from "zod";
-import {
-  Gender,
-  StudyTactic,
-  EducationLevel,
-} from "../../database/model/UserInfo";
+import { Gender, EducationLevel } from "../../database/model/UserInfo";
 
 export const createUserInfoSchema = zod.object({
   gender: zod.nativeEnum(Gender, {
     message: "Geçerli bir cinsiyet seçiniz",
-  }),
-  studyTactic: zod.nativeEnum(StudyTactic, {
-    message: "Geçerli bir çalışma taktiği seçiniz",
   }),
   educationLevel: zod.nativeEnum(EducationLevel, {
     message: "Geçerli bir eğitim seviyesi seçiniz",
