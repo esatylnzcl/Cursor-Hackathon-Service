@@ -3,20 +3,22 @@
 AI destekli kişiselleştirilmiş eğitim mentörlük sistemi.
 
 ## 🔗 Base URL
+
 ```
 http://localhost:3000
 ```
 
 ## 🔐 Authentication
+
 Tüm endpoint'ler **session-based authentication** gerektirir.
 
 ```javascript
-fetch('http://localhost:3000/chat/...', {
-  credentials: 'include', // ÖNEMLİ: Session cookie'si için!
+fetch("http://localhost:3000/chat/...", {
+  credentials: "include", // ÖNEMLİ: Session cookie'si için!
   headers: {
-    'Content-Type': 'application/json'
-  }
-})
+    "Content-Type": "application/json",
+  },
+});
 ```
 
 ---
@@ -30,6 +32,7 @@ fetch('http://localhost:3000/chat/...', {
 Yeni bir chat oturumu oluşturur.
 
 **Request Body (Optional):**
+
 ```json
 {
   "title": "Matematik Çalışma Planı"
@@ -37,6 +40,7 @@ Yeni bir chat oturumu oluşturur.
 ```
 
 **Success Response (201):**
+
 ```json
 {
   "status": true,
@@ -61,6 +65,7 @@ Yeni bir chat oturumu oluşturur.
 Kullanıcının tüm aktif chat oturumlarını getirir (en son güncellenen üstte).
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -94,9 +99,11 @@ Kullanıcının tüm aktif chat oturumlarını getirir (en son güncellenen üst
 Belirli bir chat oturumundaki tüm mesajları kronolojik sırayla getirir.
 
 **Path Parameters:**
+
 - `id`: ChatSession ID
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -143,9 +150,11 @@ Belirli bir chat oturumundaki tüm mesajları kronolojik sırayla getirir.
 AI'a mesaj gönderir ve kişiselleştirilmiş cevap alır.
 
 **Path Parameters:**
+
 - `id`: ChatSession ID
 
 **Request Body:**
+
 ```json
 {
   "message": "İngilizce kelime ezberlemek için hangi yöntemi önerirsin?"
@@ -153,9 +162,11 @@ AI'a mesaj gönderir ve kişiselleştirilmiş cevap alır.
 ```
 
 **Validation:**
+
 - `message`: String, 1-5000 karakter arası, boş olamaz
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -180,6 +191,7 @@ AI'a mesaj gönderir ve kişiselleştirilmiş cevap alır.
 ```
 
 **🎯 Önemli:** Bu endpoint otomatik olarak kullanıcının profil bilgilerini (UserInfo) AI'a context olarak gönderir. AI, kullanıcının:
+
 - Eğitim seviyesi
 - Kariyer hedefleri
 - İlgi alanları
@@ -197,9 +209,11 @@ bilgilerine göre **kişiselleştirilmiş** cevaplar verir.
 Chat oturumunun başlığını değiştirir.
 
 **Path Parameters:**
+
 - `id`: ChatSession ID
 
 **Request Body:**
+
 ```json
 {
   "title": "Algoritma Çalışma Stratejileri"
@@ -207,6 +221,7 @@ Chat oturumunun başlığını değiştirir.
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -230,9 +245,11 @@ Chat oturumunun başlığını değiştirir.
 Chat oturumunu ve içindeki tüm mesajları siler (soft delete).
 
 **Path Parameters:**
+
 - `id`: ChatSession ID
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -251,29 +268,32 @@ Chat oturumunu ve içindeki tüm mesajları siler (soft delete).
 
 ```javascript
 // 1. Yeni chat oturumu oluştur
-const sessionRes = await fetch('http://localhost:3000/chat/sessions', {
-  method: 'POST',
-  credentials: 'include',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ title: "Yeni Sohbet" })
+const sessionRes = await fetch("http://localhost:3000/chat/sessions", {
+  method: "POST",
+  credentials: "include",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ title: "Yeni Sohbet" }),
 });
 const { data: session } = await sessionRes.json();
 const sessionId = session._id;
 
 // 2. AI'a ilk soruyu sor
-const messageRes = await fetch(`http://localhost:3000/chat/sessions/${sessionId}/messages`, {
-  method: 'POST',
-  credentials: 'include',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ 
-    message: "Merhaba! Programlama öğrenmek için nereden başlamalıyım?" 
-  })
-});
+const messageRes = await fetch(
+  `http://localhost:3000/chat/sessions/${sessionId}/messages`,
+  {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: "Merhaba! Programlama öğrenmek için nereden başlamalıyım?",
+    }),
+  }
+);
 const { data: messages } = await messageRes.json();
 
 // 3. Her iki mesajı da ekrana yazdır
-console.log('Sen:', messages.userMessage.content);
-console.log('AI:', messages.assistantMessage.content);
+console.log("Sen:", messages.userMessage.content);
+console.log("AI:", messages.assistantMessage.content);
 ```
 
 ---
@@ -282,8 +302,8 @@ console.log('AI:', messages.assistantMessage.content);
 
 ```javascript
 // 1. Tüm chat'leri listele
-const sessionsRes = await fetch('http://localhost:3000/chat/sessions', {
-  credentials: 'include'
+const sessionsRes = await fetch("http://localhost:3000/chat/sessions", {
+  credentials: "include",
 });
 const { data: sessions } = await sessionsRes.json();
 
@@ -291,23 +311,31 @@ const { data: sessions } = await sessionsRes.json();
 const sessionId = sessions[0]._id;
 
 // 3. Geçmiş mesajları getir
-const historyRes = await fetch(`http://localhost:3000/chat/sessions/${sessionId}`, {
-  credentials: 'include'
-});
+const historyRes = await fetch(
+  `http://localhost:3000/chat/sessions/${sessionId}`,
+  {
+    credentials: "include",
+  }
+);
 const { data: history } = await historyRes.json();
 
 // 4. Mesajları göster
-history.forEach(msg => {
-  console.log(`${msg.role === 'user' ? 'Sen' : 'AI'}: ${msg.content}`);
+history.forEach((msg) => {
+  console.log(`${msg.role === "user" ? "Sen" : "AI"}: ${msg.content}`);
 });
 
 // 5. Yeni mesaj gönder
-const newMsgRes = await fetch(`http://localhost:3000/chat/sessions/${sessionId}/messages`, {
-  method: 'POST',
-  credentials: 'include',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ message: "Peki hangi programlama dilini önerirsin?" })
-});
+const newMsgRes = await fetch(
+  `http://localhost:3000/chat/sessions/${sessionId}/messages`,
+  {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: "Peki hangi programlama dilini önerirsin?",
+    }),
+  }
+);
 ```
 
 ---
@@ -317,18 +345,18 @@ const newMsgRes = await fetch(`http://localhost:3000/chat/sessions/${sessionId}/
 ### Chat Component
 
 ```typescript
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface Message {
   _id: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   createdAt: string;
 }
 
 const ChatComponent = ({ sessionId }: { sessionId: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Geçmiş mesajları yükle
@@ -337,9 +365,12 @@ const ChatComponent = ({ sessionId }: { sessionId: string }) => {
   }, [sessionId]);
 
   const loadHistory = async () => {
-    const res = await fetch(`http://localhost:3000/chat/sessions/${sessionId}`, {
-      credentials: 'include'
-    });
+    const res = await fetch(
+      `http://localhost:3000/chat/sessions/${sessionId}`,
+      {
+        credentials: "include",
+      }
+    );
     const data = await res.json();
     if (data.status) {
       setMessages(data.data);
@@ -355,21 +386,25 @@ const ChatComponent = ({ sessionId }: { sessionId: string }) => {
       const res = await fetch(
         `http://localhost:3000/chat/sessions/${sessionId}/messages`,
         {
-          method: 'POST',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: input })
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: input }),
         }
       );
 
       const data = await res.json();
       if (data.status) {
         // Her iki mesajı da listeye ekle
-        setMessages(prev => [...prev, data.data.userMessage, data.data.assistantMessage]);
-        setInput('');
+        setMessages((prev) => [
+          ...prev,
+          data.data.userMessage,
+          data.data.assistantMessage,
+        ]);
+        setInput("");
       }
     } catch (error) {
-      console.error('Mesaj gönderilemedi:', error);
+      console.error("Mesaj gönderilemedi:", error);
     } finally {
       setLoading(false);
     }
@@ -381,9 +416,7 @@ const ChatComponent = ({ sessionId }: { sessionId: string }) => {
       <div className="messages">
         {messages.map((msg) => (
           <div key={msg._id} className={`message ${msg.role}`}>
-            <div className="avatar">
-              {msg.role === 'user' ? '👤' : '🤖'}
-            </div>
+            <div className="avatar">{msg.role === "user" ? "👤" : "🤖"}</div>
             <div className="content">{msg.content}</div>
           </div>
         ))}
@@ -395,12 +428,12 @@ const ChatComponent = ({ sessionId }: { sessionId: string }) => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
           placeholder="Mesajınızı yazın..."
           disabled={loading}
         />
         <button onClick={sendMessage} disabled={loading}>
-          {loading ? 'Gönderiliyor...' : 'Gönder'}
+          {loading ? "Gönderiliyor..." : "Gönder"}
         </button>
       </div>
     </div>
@@ -413,7 +446,7 @@ const ChatComponent = ({ sessionId }: { sessionId: string }) => {
 ### Chat List Component
 
 ```typescript
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface ChatSession {
   _id: string;
@@ -429,8 +462,8 @@ const ChatList = ({ onSelectChat }: { onSelectChat: (id: string) => void }) => {
   }, []);
 
   const loadSessions = async () => {
-    const res = await fetch('http://localhost:3000/chat/sessions', {
-      credentials: 'include'
+    const res = await fetch("http://localhost:3000/chat/sessions", {
+      credentials: "include",
     });
     const data = await res.json();
     if (data.status) {
@@ -439,11 +472,11 @@ const ChatList = ({ onSelectChat }: { onSelectChat: (id: string) => void }) => {
   };
 
   const createNewChat = async () => {
-    const res = await fetch('http://localhost:3000/chat/sessions', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: 'Yeni Sohbet' })
+    const res = await fetch("http://localhost:3000/chat/sessions", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: "Yeni Sohbet" }),
     });
     const data = await res.json();
     if (data.status) {
@@ -453,22 +486,22 @@ const ChatList = ({ onSelectChat }: { onSelectChat: (id: string) => void }) => {
   };
 
   const deleteChat = async (id: string) => {
-    if (!confirm('Bu sohbeti silmek istediğinizden emin misiniz?')) return;
-    
+    if (!confirm("Bu sohbeti silmek istediğinizden emin misiniz?")) return;
+
     const res = await fetch(`http://localhost:3000/chat/sessions/${id}`, {
-      method: 'DELETE',
-      credentials: 'include'
+      method: "DELETE",
+      credentials: "include",
     });
-    
+
     if (res.ok) {
-      setSessions(sessions.filter(s => s._id !== id));
+      setSessions(sessions.filter((s) => s._id !== id));
     }
   };
 
   return (
     <div className="chat-list">
       <button onClick={createNewChat}>➕ Yeni Sohbet</button>
-      
+
       <div className="sessions">
         {sessions.map((session) => (
           <div key={session._id} className="session-item">
@@ -492,6 +525,7 @@ const ChatList = ({ onSelectChat }: { onSelectChat: (id: string) => void }) => {
 ### Common Errors
 
 **401 Unauthorized:**
+
 ```json
 {
   "status": false,
@@ -501,9 +535,11 @@ const ChatList = ({ onSelectChat }: { onSelectChat: (id: string) => void }) => {
   }
 }
 ```
+
 → Kullanıcı giriş yapmamış. Login endpoint'ine yönlendir.
 
 **403 Forbidden:**
+
 ```json
 {
   "status": false,
@@ -513,9 +549,11 @@ const ChatList = ({ onSelectChat }: { onSelectChat: (id: string) => void }) => {
   }
 }
 ```
+
 → Chat başka kullanıcıya ait.
 
 **404 Not Found:**
+
 ```json
 {
   "status": false,
@@ -525,9 +563,11 @@ const ChatList = ({ onSelectChat }: { onSelectChat: (id: string) => void }) => {
   }
 }
 ```
+
 → Session ID geçersiz veya silinmiş.
 
 **400 Bad Request:**
+
 ```json
 {
   "status": false,
@@ -538,6 +578,7 @@ const ChatList = ({ onSelectChat }: { onSelectChat: (id: string) => void }) => {
   }
 }
 ```
+
 → Mesaj boş veya çok uzun.
 
 ---
@@ -547,6 +588,7 @@ const ChatList = ({ onSelectChat }: { onSelectChat: (id: string) => void }) => {
 AI, her mesajda otomatik olarak kullanıcının profil bilgilerini context olarak alır:
 
 **Backend'de oluşturulan context örneği:**
+
 ```
 Kullanıcı Profili:
 - Cinsiyet: Erkek
@@ -559,13 +601,14 @@ Kullanıcı Profili:
 - Öğrenme Hedefleri: Backend geliştirme öğrenmek
 - Müsait Çalışma Zamanı: Haftada 15 saat
 
-Bu kullanıcı profili bilgilerine göre, aşağıdaki soruya 
+Bu kullanıcı profili bilgilerine göre, aşağıdaki soruya
 kişiselleştirilmiş, yardımcı ve motive edici bir cevap ver.
 
 Kullanıcı Sorusu: [User'ın mesajı]
 ```
 
 Bu sayede AI:
+
 - ✅ Eğitim seviyesine uygun dil kullanır
 - ✅ Kariyer hedeflerine yönelik önerilerde bulunur
 - ✅ İlgi alanlarına göre örnekler verir
@@ -590,18 +633,22 @@ Geliştirmeye başlamadan önce:
 ## 💡 Best Practices
 
 1. **Session Management:**
+
    - Yeni chat başlatırken session ID'yi sakla
    - Component unmount olduğunda session ID'yi temizle
 
 2. **Loading States:**
+
    - Mesaj gönderirken loading göster
    - AI cevabı gelene kadar input'u disable et
 
 3. **Error Handling:**
+
    - Network hatalarını yakala
    - Kullanıcıya anlamlı hata mesajları göster
 
 4. **UX:**
+
    - Mesajlar otomatik olarak en alta scroll olsun
    - Uzun AI cevaplarını formatla (markdown support)
    - Timestamp'leri human-readable formatla
@@ -615,11 +662,13 @@ Geliştirmeye başlamadan önce:
 ## 📞 Support
 
 **Health Check:**
+
 ```
 GET http://localhost:3000/health
 ```
 
 **Test için örnek soru:**
+
 ```json
 {
   "message": "Merhaba! Bana kendini tanıt ve bana nasıl yardımcı olabilirsin?"
@@ -631,4 +680,3 @@ GET http://localhost:3000/health
 **Son Güncelleme:** 2024-01-15  
 **Backend Framework:** Express.js + TypeScript + Gemini AI  
 **AI Model:** Google Gemini Pro
-
