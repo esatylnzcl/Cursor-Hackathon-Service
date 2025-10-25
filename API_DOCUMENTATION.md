@@ -3,6 +3,7 @@
 Bu doküman, eğitim platformu backend API'sinin tüm endpoint'lerini, request/response formatlarını ve kullanım örneklerini içerir.
 
 ## 🔗 Base URL
+
 ```
 http://localhost:3000
 ```
@@ -14,12 +15,12 @@ API, **session-based authentication** kullanır. Giriş yaptıktan sonra session
 **Önemli:** Tüm isteklerde `credentials: 'include'` kullanmalısınız!
 
 ```javascript
-fetch('http://localhost:3000/api/endpoint', {
-  credentials: 'include', // Session cookie'sini gönder
+fetch("http://localhost:3000/api/endpoint", {
+  credentials: "include", // Session cookie'sini gönder
   headers: {
-    'Content-Type': 'application/json'
-  }
-})
+    "Content-Type": "application/json",
+  },
+});
 ```
 
 ---
@@ -45,6 +46,7 @@ Yeni kullanıcı kaydı oluşturur.
 **Endpoint:** `POST /auth/register`
 
 **Request Body:**
+
 ```json
 {
   "firstName": "Ahmet",
@@ -55,12 +57,14 @@ Yeni kullanıcı kaydı oluşturur.
 ```
 
 **Validation Rules:**
+
 - `firstName`: Min 2 karakter
 - `lastName`: Min 2 karakter
 - `email`: Geçerli email formatı
 - `password`: Min 6 karakter
 
 **Success Response (201):**
+
 ```json
 {
   "status": true,
@@ -79,6 +83,7 @@ Yeni kullanıcı kaydı oluşturur.
 ```
 
 **Error Response (400):**
+
 ```json
 {
   "status": false,
@@ -99,6 +104,7 @@ Kullanıcı girişi yapar ve session oluşturur.
 **Endpoint:** `POST /auth/login`
 
 **Request Body:**
+
 ```json
 {
   "email": "ahmet@example.com",
@@ -107,6 +113,7 @@ Kullanıcı girişi yapar ve session oluşturur.
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -125,6 +132,7 @@ Kullanıcı girişi yapar ve session oluşturur.
 ```
 
 **Error Response (404):**
+
 ```json
 {
   "status": false,
@@ -136,6 +144,7 @@ Kullanıcı girişi yapar ve session oluşturur.
 ```
 
 **Error Response (400):**
+
 ```json
 {
   "status": false,
@@ -157,6 +166,7 @@ Kullanıcı çıkışı yapar ve session'ı sonlandırır.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -174,6 +184,7 @@ Kullanıcının giriş yapıp yapmadığını kontrol eder.
 **Endpoint:** `GET /auth/check`
 
 **Success Response - Logged In (200):**
+
 ```json
 {
   "status": true,
@@ -187,6 +198,7 @@ Kullanıcının giriş yapıp yapmadığını kontrol eder.
 ```
 
 **Success Response - Not Logged In (200):**
+
 ```json
 {
   "status": true,
@@ -210,6 +222,7 @@ Kullanıcı profil bilgileri - AI'a gönderilmek üzere.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -242,6 +255,7 @@ Kullanıcı profil bilgileri - AI'a gönderilmek üzere.
 **Authentication:** Required ✅
 
 **Request Body:**
+
 ```json
 {
   "gender": "male",
@@ -258,15 +272,19 @@ Kullanıcı profil bilgileri - AI'a gönderilmek üzere.
 ```
 
 **Enum Values:**
+
 - **gender:** `"male"`, `"female"`
 - **educationLevel:** `"primary_school"`, `"middle_school"`, `"high_school"`, `"undergraduate"`, `"graduate"`, `"doctorate"`, `"other"`
 
 **Success Response (201):**
+
 ```json
 {
   "status": true,
   "message": "Kullanıcı profili başarıyla oluşturuldu",
-  "data": { /* Profil bilgileri */ }
+  "data": {
+    /* Profil bilgileri */
+  }
 }
 ```
 
@@ -279,6 +297,7 @@ Kullanıcı profil bilgileri - AI'a gönderilmek üzere.
 **Authentication:** Required ✅
 
 **Request Body:** (Partial - sadece güncellemek istediğiniz alanları gönderin)
+
 ```json
 {
   "careerGoal": "Full Stack Developer",
@@ -287,11 +306,14 @@ Kullanıcı profil bilgileri - AI'a gönderilmek üzere.
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
   "message": "Kullanıcı profili başarıyla güncellendi",
-  "data": { /* Güncellenmiş profil */ }
+  "data": {
+    /* Güncellenmiş profil */
+  }
 }
 ```
 
@@ -304,6 +326,7 @@ Kullanıcı profil bilgileri - AI'a gönderilmek üzere.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -325,6 +348,7 @@ Kullanıcı profilini AI'a göndermek için formatlanmış metin halinde döner.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -348,6 +372,7 @@ Kullanıcı profilini AI'a göndermek için formatlanmış metin halinde döner.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -377,6 +402,7 @@ Kullanıcı profilini AI'a göndermek için formatlanmış metin halinde döner.
 **Authentication:** Required ✅
 
 **Request Body:**
+
 ```json
 {
   "techniqueId": "pomodoro",
@@ -390,22 +416,27 @@ Kullanıcı profilini AI'a göndermek için formatlanmış metin halinde döner.
 ```
 
 **Required Fields:**
+
 - `techniqueId`: string (örn: "pomodoro", "spaced_repetition", "feynman")
 - `studyArea`: string (örn: "İngilizce", "Matematik", "Programlama")
 - `educationLevel`: enum
 
 **Optional Fields:**
+
 - `isActive`: boolean (default: true)
 - `maxParticipants`: number (default: 2)
 - `preferredDays`: string[] (örn: ["monday", "tuesday"])
 - `preferredTimeSlots`: string[] (örn: ["09:00-12:00"])
 
 **Success Response (201):**
+
 ```json
 {
   "status": true,
   "message": "Tercihler oluşturuldu",
-  "data": { /* Tercih bilgileri */ }
+  "data": {
+    /* Tercih bilgileri */
+  }
 }
 ```
 
@@ -418,6 +449,7 @@ Kullanıcı profilini AI'a göndermek için formatlanmış metin halinde döner.
 **Authentication:** Required ✅
 
 **Request Body:** (Partial)
+
 ```json
 {
   "studyArea": "Matematik",
@@ -426,11 +458,14 @@ Kullanıcı profilini AI'a göndermek için formatlanmış metin halinde döner.
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
   "message": "Tercihler güncellendi",
-  "data": { /* Güncellenmiş tercih */ }
+  "data": {
+    /* Güncellenmiş tercih */
+  }
 }
 ```
 
@@ -443,6 +478,7 @@ Kullanıcı profilini AI'a göndermek için formatlanmış metin halinde döner.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -464,6 +500,7 @@ Aynı technique, studyArea ve educationLevel'a sahip kullanıcıları bulur.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -515,6 +552,7 @@ Randevu talep ve yönetim sistemi.
 **Authentication:** Required ✅
 
 **Request Body:**
+
 ```json
 {
   "to": "507f1f77bcf86cd799439015",
@@ -528,10 +566,12 @@ Randevu talep ve yönetim sistemi.
 ```
 
 **Required Fields:**
+
 - `to`: string (User ID)
 - `when`: string (ISO 8601 datetime)
 
 **Optional Fields:**
+
 - `studyArea`: string
 - `techniqueId`: string
 - `duration`: number (dakika)
@@ -539,6 +579,7 @@ Randevu talep ve yönetim sistemi.
 - `meetingLink`: string (URL)
 
 **Success Response (201):**
+
 ```json
 {
   "status": true,
@@ -581,6 +622,7 @@ Randevu talebini kabul et, reddet veya iptal et.
 **Authentication:** Required ✅
 
 **Request Body:**
+
 ```json
 {
   "status": "accepted"
@@ -588,22 +630,28 @@ Randevu talebini kabul et, reddet veya iptal et.
 ```
 
 **Status Values:**
+
 - `"accepted"` - Kabul edildi (sadece alıcı yapabilir)
 - `"rejected"` - Reddedildi (sadece alıcı yapabilir)
 - `"cancelled"` - İptal edildi (her iki taraf yapabilir)
 - `"completed"` - Tamamlandı
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
   "message": "Randevu durumu güncellendi",
   "data": {
     "_id": "507f1f77bcf86cd799439018",
-    "from": { /* User bilgileri */ },
-    "to": { /* User bilgileri */ },
+    "from": {
+      /* User bilgileri */
+    },
+    "to": {
+      /* User bilgileri */
+    },
     "when": "2024-01-20T14:00:00.000Z",
-    "status": "accepted",
+    "status": "accepted"
     /* ... diğer alanlar */
   }
 }
@@ -618,6 +666,7 @@ Randevu talebini kabul et, reddet veya iptal et.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -657,6 +706,7 @@ Bana gelen bekleyen randevu talepleri.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -695,6 +745,7 @@ Benim gönderdiğim bekleyen randevu talepleri.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -730,6 +781,7 @@ Benim gönderdiğim bekleyen randevu talepleri.
 **Authentication:** Required ✅
 
 **Success Response (200):**
+
 ```json
 {
   "status": true,
@@ -747,15 +799,19 @@ Benim gönderdiğim bekleyen randevu talepleri.
 Tüm API response'ları aşağıdaki formatta döner:
 
 ### Success Response
+
 ```json
 {
   "status": true,
   "message": "İşlem başarılı mesajı",
-  "data": { /* İlgili veri */ }
+  "data": {
+    /* İlgili veri */
+  }
 }
 ```
 
 ### Error Response
+
 ```json
 {
   "status": false,
@@ -773,16 +829,16 @@ Tüm API response'ları aşağıdaki formatta döner:
 
 ### HTTP Status Codes
 
-| Code | Anlamı | Örnek |
-|------|--------|-------|
-| 200 | Success | İşlem başarılı |
-| 201 | Created | Kayıt oluşturuldu |
-| 400 | Bad Request | Validation hatası |
-| 401 | Unauthorized | Giriş yapılmamış |
-| 403 | Forbidden | Yetki yok |
-| 404 | Not Found | Kayıt bulunamadı |
-| 409 | Conflict | Duplicate kayıt |
-| 500 | Server Error | Sunucu hatası |
+| Code | Anlamı       | Örnek             |
+| ---- | ------------ | ----------------- |
+| 200  | Success      | İşlem başarılı    |
+| 201  | Created      | Kayıt oluşturuldu |
+| 400  | Bad Request  | Validation hatası |
+| 401  | Unauthorized | Giriş yapılmamış  |
+| 403  | Forbidden    | Yetki yok         |
+| 404  | Not Found    | Kayıt bulunamadı  |
+| 409  | Conflict     | Duplicate kayıt   |
+| 500  | Server Error | Sunucu hatası     |
 
 ### Error Types
 
@@ -871,20 +927,20 @@ GET /appointments
 
 ```javascript
 // 1. AI prompt'unu al
-GET /user-info/ai-prompt
+GET / user - info / ai - prompt;
 
 // 2. Response'daki prompt'u AI'a gönder
-const response = await fetch('http://localhost:3000/user-info/ai-prompt', {
-  credentials: 'include'
+const response = await fetch("http://localhost:3000/user-info/ai-prompt", {
+  credentials: "include",
 });
 const { data } = await response.json();
 
 // 3. data.prompt'u AI API'sine context olarak ekle
-const aiResponse = await fetch('AI_API_URL', {
-  method: 'POST',
+const aiResponse = await fetch("AI_API_URL", {
+  method: "POST",
   body: JSON.stringify({
-    prompt: `${data.prompt}\n\nKullanıcı Sorusu: ${userQuestion}`
-  })
+    prompt: `${data.prompt}\n\nKullanıcı Sorusu: ${userQuestion}`,
+  }),
 });
 ```
 
@@ -898,11 +954,11 @@ const aiResponse = await fetch('AI_API_URL', {
 // Login Component
 const login = async (email: string, password: string) => {
   try {
-    const response = await fetch('http://localhost:3000/auth/login', {
-      method: 'POST',
-      credentials: 'include', // Önemli!
+    const response = await fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      credentials: "include", // Önemli!
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
@@ -910,13 +966,13 @@ const login = async (email: string, password: string) => {
     const data = await response.json();
 
     if (data.status) {
-      console.log('Giriş başarılı:', data.data);
+      console.log("Giriş başarılı:", data.data);
       // Kullanıcıyı ana sayfaya yönlendir
     } else {
-      console.error('Hata:', data.message);
+      console.error("Hata:", data.message);
     }
   } catch (error) {
-    console.error('Network error:', error);
+    console.error("Network error:", error);
   }
 };
 ```
@@ -925,7 +981,7 @@ const login = async (email: string, password: string) => {
 
 ```typescript
 // useAuth.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -938,8 +994,8 @@ export const useAuth = () => {
 
   const checkSession = async () => {
     try {
-      const response = await fetch('http://localhost:3000/auth/check', {
-        credentials: 'include',
+      const response = await fetch("http://localhost:3000/auth/check", {
+        credentials: "include",
       });
       const data = await response.json();
 
@@ -948,7 +1004,7 @@ export const useAuth = () => {
         setUser(data.data);
       }
     } catch (error) {
-      console.error('Session check failed:', error);
+      console.error("Session check failed:", error);
     } finally {
       setLoading(false);
     }
@@ -965,36 +1021,39 @@ export const useAuth = () => {
 const findAndRequestAppointment = async () => {
   try {
     // 1. Eşleşmeleri bul
-    const matchesRes = await fetch('http://localhost:3000/study-preference/matches', {
-      credentials: 'include',
-    });
+    const matchesRes = await fetch(
+      "http://localhost:3000/study-preference/matches",
+      {
+        credentials: "include",
+      }
+    );
     const matchesData = await matchesRes.json();
 
     if (matchesData.status && matchesData.data.length > 0) {
       const firstMatch = matchesData.data[0];
-      
+
       // 2. İlk eşleşmeye randevu talebi gönder
-      const appointmentRes = await fetch('http://localhost:3000/appointments', {
-        method: 'POST',
-        credentials: 'include',
+      const appointmentRes = await fetch("http://localhost:3000/appointments", {
+        method: "POST",
+        credentials: "include",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           to: firstMatch.userId._id,
-          when: new Date('2024-01-20T14:00:00Z').toISOString(),
+          when: new Date("2024-01-20T14:00:00Z").toISOString(),
           studyArea: firstMatch.studyArea,
           techniqueId: firstMatch.techniqueId,
           duration: 90,
-          notes: 'Birlikte çalışalım!',
+          notes: "Birlikte çalışalım!",
         }),
       });
 
       const appointmentData = await appointmentRes.json();
-      console.log('Randevu talebi gönderildi:', appointmentData);
+      console.log("Randevu talebi gönderildi:", appointmentData);
     }
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
   }
 };
 ```
@@ -1051,11 +1110,13 @@ BACKEND_PATH=/
 Herhangi bir sorun veya soru için backend developer ile iletişime geçin.
 
 **Health Check Endpoint:**
+
 ```
 GET http://localhost:3000/health
 ```
 
 Response:
+
 ```json
 {
   "status": true,
@@ -1083,4 +1144,3 @@ Frontend geliştirmeye başlamadan önce:
 **Son Güncelleme:** 2024-01-15
 **API Version:** 1.0.0
 **Backend Framework:** Express.js + TypeScript + MongoDB
-
