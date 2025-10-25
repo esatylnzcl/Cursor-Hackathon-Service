@@ -10,6 +10,7 @@ type configType = {
   SESSION_SECRET: string;
   ENV: string;
   FRONTEND_URL: string;
+  GEMINI_API_KEY: string;
 };
 
 const configSchema = zod.object({
@@ -24,6 +25,7 @@ const configSchema = zod.object({
     .min(16, "Session secret en az 16 karakter olmalı"),
   ENV: zod.enum(["development", "production", "test"]),
   FRONTEND_URL: zod.string().url("Geçerli bi url olmalı"),
+  GEMINI_API_KEY: zod.string().min(1, "Gemini API key gerekli"),
 });
 
 export var config: configType = Validate(
@@ -33,6 +35,7 @@ export var config: configType = Validate(
     SESSION_SECRET: process.env.SESSION_SECRET,
     ENV: process.env.NODE_ENV,
     FRONTEND_URL: process.env.FRONTEND_URL,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   },
   configSchema
 );

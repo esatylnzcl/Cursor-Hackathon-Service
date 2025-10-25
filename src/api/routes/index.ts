@@ -3,6 +3,7 @@ import { authRouter } from "./auth.routes";
 import { userInfoRouter } from "./userInfo.routes";
 import { studyPreferenceRouter } from "./studyPreference.routes";
 import { appointmentRouter } from "./appointment.routes";
+import { chatRouter } from "./chat.routes";
 
 /**
  * Ana route yapılandırması
@@ -20,6 +21,9 @@ export function addRoutes(app: Express) {
 
   // Appointment routes
   app.use("/appointments", appointmentRouter);
+
+  // Chat routes (AI)
+  app.use("/chat", chatRouter);
 
   // Diğer route'lar buraya eklenecek
   // app.use("/users", userRouter);
