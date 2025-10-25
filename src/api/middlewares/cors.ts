@@ -8,7 +8,8 @@ export function corsConfig(
   next: NextFunction
 ): void | Response {
   const allowedOrigin = config.FRONTEND_URL;
-  const origin = req.headers.origin;
+  //const origin = req.headers.origin;
+  const origin = allowedOrigin;
 
   // OPTIONS request için origin check'i daha esnek
   if (req.method === "OPTIONS") {

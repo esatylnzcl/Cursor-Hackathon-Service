@@ -3,7 +3,7 @@ import "reflect-metadata";
 import express from "express";
 import { config } from "./config";
 import { connectDB } from "./src/database/connection";
-import { corsConfig } from "./src/api/middlewares/cors";
+//import { corsConfig } from "./src/api/middlewares/cors";
 import { createSession } from "./src/api/middlewares/session";
 import { ErrHandler } from "./src/api/middlewares/ErrorHandler";
 
@@ -18,7 +18,7 @@ app.use(express.json()); // Body parser
 app.use(express.urlencoded({ extended: true })); // URL encoded parser
 
 // CORS Configuration
-app.use(corsConfig);
+//app.use(corsConfig);
 
 // Session Management
 createSession(app);

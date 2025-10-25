@@ -18,10 +18,11 @@ export function createSession(app: Express) {
         touchAfter: 1000 * 60 * 60 * 24,
       }) as unknown as Store,
       cookie: {
+        path: "/",
         httpOnly: true,
-        secure: config.ENV === "production",
-        maxAge: 1000 * 60 * 60 * 24 * 3,
-        sameSite: "lax",
+        secure: false, // Development için false (HTTPS olmadan çalışsın)
+        maxAge: 1000 * 60 * 60 * 24 * 3, // 3 gün
+        sameSite: config.ENV === "production" ? "strict" : "none", // Development'ta none
       },
     })
   );
