@@ -2,6 +2,11 @@ import "reflect-metadata";
 import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 
+export enum UserRole {
+  NONE = "none",
+  MEMBER = "member",
+}
+
 @modelOptions({
   schemaOptions: {
     collection: "user",
@@ -21,9 +26,6 @@ export class User {
   @prop({ required: true })
   public lastName!: string;
 
-  @prop({ required: true, unique: true, match: /^[1-9][0-9]{10}$/ })
-  public identityNumber!: string;
-
   @prop({
     required: true,
     unique: true,
@@ -36,6 +38,9 @@ export class User {
 
   @prop({ required: true, default: false })
   public isDeleted!: boolean;
+
+  @prop({ required: true, default: "user" })
+  public role!: string;
 }
 
 export const UserModel = getModelForClass(User);

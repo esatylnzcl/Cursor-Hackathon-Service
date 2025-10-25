@@ -1,5 +1,6 @@
 import { Express } from "express";
 import { authRouter } from "./auth.routes";
+import { userInfoRouter } from "./userInfo.routes";
 
 /**
  * Ana route yapılandırması
@@ -8,6 +9,9 @@ import { authRouter } from "./auth.routes";
 export function addRoutes(app: Express) {
   // Auth routes
   app.use("/auth", authRouter);
+
+  // User Info routes
+  app.use("/user-info", userInfoRouter);
 
   // Diğer route'lar buraya eklenecek
   // app.use("/users", userRouter);
